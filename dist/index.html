@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7efe2" />
+    <meta name="description" content="Una e-card interactiva para celebrar los 21 de Keyla." />
+    <title>Keyla cumple 21</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas id="confetti" aria-hidden="true"></canvas>
+    <div class="paper-noise" aria-hidden="true"></div>
+
+    <header class="topbar" aria-label="Controles de la tarjeta">
+      <div class="brand">KEYLA <span>21</span></div>
+      <div class="progress" aria-label="Progreso">
+        <span id="progressLabel">01 / 08</span>
+        <div class="progress-track" aria-hidden="true"><i id="progressFill"></i></div>
+      </div>
+      <button id="soundToggle" class="icon-button" type="button" aria-label="Silenciar sonidos" aria-pressed="false">
+        <svg class="sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5L11 19V5Zm4.2 3.2a5.4 5.4 0 0 1 0 7.6M18 5.5a9.2 9.2 0 0 1 0 13"/></svg>
+        <svg class="sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5L11 19V5Zm5 4 5 5m0-5-5 5"/></svg>
+      </button>
+    </header>
+
+    <main id="experience" class="experience">
+      <section class="scene active intro-scene" data-scene="0" aria-labelledby="introTitle">
+        <div class="scribble scribble-a" aria-hidden="true">✦</div>
+        <div class="scribble scribble-b" aria-hidden="true">21!</div>
+        <div class="intro-copy">
+          <p class="eyebrow">7 DE NOVIEMBRE · EXPEDIENTE CONFIDENCIAL</p>
+          <h1 id="introTitle">Esto es para <em>Keyla</em></h1>
+          <p class="lead">Contenido exclusivo para una persona que cumple 21 años y todavía no sabe comportarse.</p>
+          <button class="primary-button js-next" type="button">Abrir bajo tu propio riesgo <span>→</span></button>
+        </div>
+        <figure class="sticker-photo intro-cat">
+          <img src="assets/gato-fiesta.png" alt="Gato con sombrero de cumpleaños" />
+          <figcaption>clasificado: muy importante</figcaption>
+        </figure>
+      </section>
+
+      <section class="scene announcement-scene" data-scene="1" aria-labelledby="announcementTitle" hidden>
+        <div class="announcement-stack">
+          <p class="eyebrow">ÚLTIMA HORA</p>
+          <p class="announcement-line">Hoy no es un día cualquiera.</p>
+          <p class="announcement-line delay-one">Hoy es <strong>7 de noviembre.</strong></p>
+          <p class="announcement-line delay-two">Y contra todo pronóstico…</p>
+          <h2 id="announcementTitle" class="big-number">21</h2>
+          <p class="stamp">KEYLA SOBREVIVIÓ OTRO AÑO SIENDO KEYLA</p>
+          <button class="primary-button js-next" type="button">Confirmar el milagro <span>→</span></button>
+        </div>
+        <img class="floating-dog" src="assets/perro-cumple.png" alt="Perro celebrando un cumpleaños con pastel" />
+      </section>
+
+      <section class="scene love-scene" data-scene="2" aria-labelledby="loveTitle" hidden>
+        <div class="section-heading">
+          <p class="eyebrow">DECLARACIONES OFICIALES</p>
+          <h2 id="loveTitle">Te quiero a pesar de…</h2>
+        </div>
+
+        <div id="loveCarousel" class="love-carousel" aria-roledescription="carrusel" aria-label="Tres razones cuestionables">
+          <article class="love-card active" data-card="0" aria-label="1 de 3">
+            <span class="card-number">01</span>
+            <p>Te quiero a pesar de que bañarte parezca un <mark>evento de temporada.</mark></p>
+            <span class="doodle" aria-hidden="true">✦ ✦ ✦</span>
+          </article>
+          <article class="love-card" data-card="1" aria-label="2 de 3" aria-hidden="true">
+            <span class="card-number">02</span>
+            <p>Te quiero aunque tomes decisiones que requieren <mark>supervisión adulta.</mark></p>
+            <span class="doodle" aria-hidden="true">¿? ¿? ¿?</span>
+          </article>
+          <article class="love-card" data-card="2" aria-label="3 de 3" aria-hidden="true">
+            <span class="card-number">03</span>
+            <p>Te quiero porque contigo cualquier momento normal termina convertido en una <mark>historia cuestionable.</mark></p>
+            <span class="doodle" aria-hidden="true">!!!</span>
+          </article>
+        </div>
+
+        <div class="carousel-controls">
+          <button id="lovePrev" class="round-button" type="button" aria-label="Frase anterior">←</button>
+          <div id="loveDots" class="carousel-dots" aria-label="Seleccionar frase"></div>
+          <button id="lovePause" class="pause-button" type="button" aria-pressed="false">Pausar</button>
+          <button id="loveNext" class="round-button" type="button" aria-label="Frase siguiente">→</button>
+        </div>
+        <button class="text-button js-next" type="button">Continuar con el daño emocional →</button>
+      </section>
+
+      <section class="scene before-after-scene" data-scene="3" aria-labelledby="beforeTitle" hidden>
+        <div class="section-heading compact">
+          <p class="eyebrow">ESTUDIO CIENTÍFICO</p>
+          <h2 id="beforeTitle">El efecto Keyla</h2>
+        </div>
+
+        <div id="beforeAfterCard" class="before-after-card">
+          <figure class="comparison-side before-side active">
+            <span class="comparison-label">Mi vida antes de conocerte</span>
+            <img src="assets/vida-antes.png" alt="Hombre feliz en una playa con arcoíris y delfines" />
+          </figure>
+          <figure class="comparison-side after-side" aria-hidden="true">
+            <span class="comparison-label">Mi vida después de conocerte</span>
+            <img src="assets/vida-despues.png" alt="Hombre llorando" />
+            <figcaption>Ha sido una experiencia emocionalmente costosa.</figcaption>
+          </figure>
+        </div>
+
+        <button id="revealAfter" class="primary-button" type="button">Ver lo que pasó después <span>→</span></button>
+        <button class="text-button js-next after-next" type="button" hidden>Pero lo volvería a hacer. Probablemente. →</button>
+      </section>
+
+      <section class="scene diagnosis-scene" data-scene="4" aria-labelledby="diagnosisTitle" hidden>
+        <div class="section-heading compact">
+          <p class="eyebrow">RESULTADOS 100% CONFIABLES*</p>
+          <h2 id="diagnosisTitle">Diagnóstico oficial de los 21</h2>
+        </div>
+        <div class="diagnosis-layout">
+          <div class="meter-panel">
+            <div class="meter-ring" id="meterRing"><strong id="meterValue">14%</strong><span>adultez</span></div>
+            <p class="fine-print">*Fuente: lo soñé anoche.</p>
+          </div>
+          <div id="diagnosisList" class="diagnosis-list" aria-live="polite">
+            <div><span>Decisiones responsables</span><strong>Pendiente</strong></div>
+            <div><span>Energía caótica</span><strong>Fuera de escala</strong></div>
+            <div><span>Probabilidad de llegar tarde</span><strong>97%</strong></div>
+            <div><span>Ser increíble</span><strong>Sospechosamente alta</strong></div>
+          </div>
+        </div>
+        <div class="button-row">
+          <button id="rerollDiagnosis" class="secondary-button" type="button">Recalcular resultados</button>
+          <button class="primary-button js-next" type="button">Acepto mi diagnóstico <span>→</span></button>
+        </div>
+      </section>
+
+      <section class="scene candles-scene" data-scene="5" aria-labelledby="candlesTitle" hidden>
+        <div class="section-heading compact">
+          <p class="eyebrow">MOMENTO SERIO (MÁS O MENOS)</p>
+          <h2 id="candlesTitle">Pide un deseo</h2>
+          <p>No lo digas en voz alta porque después no se cumple.</p>
+        </div>
+
+        <div class="cake" aria-label="Pastel con 21 velas">
+          <div id="candles" class="candles" aria-hidden="true"></div>
+          <div class="cake-top"></div>
+          <div class="cake-body"><span>KEYLA</span><strong>21</strong></div>
+          <div class="cake-plate"></div>
+        </div>
+        <button id="blowButton" class="hold-button" type="button">
+          <span class="hold-fill" aria-hidden="true"></span>
+          <span class="hold-copy">Mantén presionado para soplar</span>
+        </button>
+        <p id="wishStatus" class="wish-status" aria-live="polite">21 velas encendidas</p>
+        <button class="text-button js-next candle-next" type="button" hidden>Ver resultado del deseo →</button>
+      </section>
+
+      <section class="scene note-scene" data-scene="6" aria-labelledby="noteTitle" hidden>
+        <div class="note-wrap">
+          <div class="tape" aria-hidden="true"></div>
+          <article class="personal-note">
+            <p class="eyebrow">AHORA SÍ, FUERA DE BROMAS…</p>
+            <h2 id="noteTitle">Feliz vuelta al sol, Keyla.</h2>
+            <p>Espero que tus 21 estén llenos de momentos que quieras recordar, personas que te hagan sentir en casa y aventuras que terminen en historias —cuestionables, obviamente—.</p>
+            <p>Gracias por hacer que hasta los días normales tengan algo especial. No cambies esa forma tan tuya de llenar todo de caos, risa y vida.</p>
+            <p class="signature">Con mucho cariño,<br /><strong>alguien que te quiere incluso en temporada sin baño.</strong></p>
+          </article>
+          <img class="note-cat" src="assets/gatos-cumple.png" alt="Gatos celebrando junto a un pastel" />
+        </div>
+        <button class="primary-button js-next" type="button">Una última cosa… <span>→</span></button>
+      </section>
+
+      <section class="scene finale-scene" data-scene="7" aria-labelledby="finaleTitle" hidden>
+        <p class="eyebrow light">NIVEL DESBLOQUEADO</p>
+        <h2 id="finaleTitle">Feliz <span>21</span>,<br />Keyla</h2>
+        <p class="finale-subtitle">Te queremos incluso si no te bañas.</p>
+        <button id="activateBirthday" class="final-button" type="button">ACTIVAR CUMPLEAÑOS</button>
+        <img class="final-shrek" src="assets/shrek-cumple.png" alt="Shrek celebrando un cumpleaños" />
+        <div class="final-actions">
+          <button id="replayButton" class="ghost-button" type="button">↻ Volver a verlo</button>
+        </div>
+      </section>
+    </main>
+
+    <nav class="scene-nav" aria-label="Navegación entre secciones">
+      <button id="backButton" type="button" aria-label="Volver a la sección anterior" disabled>←</button>
+      <span id="sceneName">Alerta para Keyla</span>
+      <button id="forwardButton" type="button" aria-label="Ir a la siguiente sección">→</button>
+    </nav>
+
+    <noscript>Esta tarjeta necesita JavaScript para mostrar sus interacciones.</noscript>
+    <script src="script.js"></script>
+  </body>
+</html>
