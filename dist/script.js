@@ -258,11 +258,11 @@ function startMonitorScene() {
   activateFromMonitor.hidden = true;
   monitorNext.hidden = true;
   monitorStatus.textContent = "El mensaje está llegando…";
-  typeText(monitorMessage, sincereMessage, { speed: prefersReducedMotion.matches ? 0 : 24, done: () => {
+  typeText(monitorMessage, sincereMessage, { speed: prefersReducedMotion.matches ? 0 : 14, done: () => {
     monitorStatus.textContent = "Mensaje recibido. Puedes leerlo un momento.";
     monitorNext.hidden = false;
+    if (!prefersReducedMotion.matches) monitorTimers.push(window.setTimeout(triggerIntruder, 5000));
   }});
-  if (!prefersReducedMotion.matches) monitorTimers.push(window.setTimeout(triggerIntruder, 5000));
 }
 
 monitorNext.addEventListener("click", triggerIntruder);
