@@ -351,3 +351,13 @@ button:focus-visible { outline: 4px solid var(--sponge-yellow); outline-offset: 
   .monitor-scene .window-bar { font-size: 9px !important; padding: 4px 6px !important; }
   .monitor-scene .monitor-status { bottom: 9% !important; width: min(90vw, 420px); }
 }
+
+/* Match the illustration's aqua water and place chat in the screen's lower-right corner */
+.monitor-scene { background: #65c9ae !important; }
+.monitor-scene .monitor-screen { right: 22% !important; top: 47% !important; width: min(390px, 28vw) !important; height: min(285px, 31vh) !important; }
+.monitor-scene .monitor-status { background: #0c4b70e8 !important; }
+@media (max-width: 760px) {
+  .monitor-scene { background: #65c9ae !important; }
+  .monitor-scene .monitor-screen { right: 17% !important; top: 44% !important; width: 58vw !important; height: 29vh !important; }
+  .monitor-scene .monitor-status { bottom: 10% !important; }
+}
