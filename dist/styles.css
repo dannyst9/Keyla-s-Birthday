@@ -441,3 +441,4 @@ body { color: var(--text-readable); }
 .finale-scene.party-paused ~ .sneaky-character { animation-play-state: paused !important; }
 @keyframes sneakyDance { from { translate: 0 3px; rotate: -5deg; } to { translate: 0 -7px; rotate: 5deg; } }
 @media (prefers-reduced-motion: reduce) { .finale-scene.activated .party-gif, .finale-scene.activated .party-tile, .finale-scene.activated .final-cake, .finale-scene.activated h2, .finale-scene.activated .final-button { animation-duration: 8s; } }
+.party-gif-stage, .sneaky-character { display: none !important; }

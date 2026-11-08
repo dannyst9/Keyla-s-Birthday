@@ -491,13 +491,7 @@ function keyedCanvas(canvas, image, maxSize = 220) {
 
 function setSneakyCharacter(sceneIndex) {
   const host = document.querySelector("#sneakyCharacter");
-  if (!host || partyActive || sceneIndex === 8) { host?.classList.remove("visible"); return; }
-  const file = partyGifSources[(sceneIndex + 1) % partyGifSources.length];
-  if (host.dataset.src !== file) {
-    host.dataset.src = file;
-    host.querySelector("img").src = file;
-  }
-  host.classList.add("visible");
+  host?.classList.remove("visible");
 }
 
 function startPartyGifs() {
@@ -543,7 +537,6 @@ document.querySelector("#activateBirthday").addEventListener("click", event => {
   event.currentTarget.textContent = "CUMPLEAÑOS ACTIVADO ✓";
   document.querySelector(".finale-scene").classList.add("activated");
   partyActive = true;
-  startPartyGifs();
   [partyPause, partyMute, partyReplay].forEach(button => { button.disabled = false; });
   if (partySong.src) {
     partySong.volume = .34;
