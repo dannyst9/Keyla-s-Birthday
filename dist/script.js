@@ -530,6 +530,20 @@ function startPartyGifs() {
     item._partyImage = image;
     item._partyCanvas = canvas;
   });
+  ["assets/party-clip-one.mp4", "assets/party-clip-two.mp4"].forEach((src, index) => {
+    const item = document.createElement("div");
+    item.className = `party-video party-video-${index + 1}`;
+    const video = document.createElement("video");
+    video.src = src;
+    video.autoplay = true;
+    video.loop = true;
+    video.muted = true;
+    video.playsInline = true;
+    video.preload = "auto";
+    item.append(video);
+    stage.append(item);
+    video.play().catch(() => {});
+  });
   const paint = timestamp => {
     if (timestamp - (stage._lastPaint || 0) > 70) {
       stage.querySelectorAll(".party-gif").forEach(item => keyedCanvas(item._partyCanvas, item._partyImage, 230));
@@ -542,6 +556,10 @@ function startPartyGifs() {
 
 function pausePartyGifs(paused) {
   document.querySelector("#finaleTitle")?.closest(".finale-scene")?.classList.toggle("party-paused", paused);
+  document.querySelectorAll(".party-video video").forEach(video => {
+    if (paused) video.pause();
+    else video.play().catch(() => {});
+  });
 }
 
 if (!sneakyCanvasFrame) sneakyCanvasFrame = requestAnimationFrame(paintSneaky);

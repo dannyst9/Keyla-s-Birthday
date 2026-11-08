@@ -436,4 +436,12 @@ body { color: var(--text-readable); }
 @keyframes partySpin { from { rotate: -10deg; scale: .94; } to { rotate: 14deg; scale: 1.05; } }
 @keyframes cakeSpin { from { rotate: -5deg; translate: 0 5px; } to { rotate: 7deg; translate: 0 -10px; } }
 @media (max-width: 760px) { .sneaky-character { width: 86px; height: 86px; bottom: 12vh; } .party-gif { width: 92px; } .party-gif-1{left:1%;top:11%}.party-gif-2{right:1%;top:11%}.party-gif-3{left:1%;bottom:10%}.party-gif-4{right:1%;bottom:10%}.party-gif-5{left:27%;top:8%;width:72px}.party-gif-6{right:25%;bottom:8%;width:82px} }
+
+.party-video { position: absolute; z-index: 4; width: clamp(118px, 17vw, 230px); aspect-ratio: 16 / 10; overflow: hidden; border: 4px solid var(--sponge-yellow); border-radius: 24px 32px 22px 34px; box-shadow: 5px 6px 0 var(--outline), 0 14px 24px #031b4d88; background: #063d70; }
+.party-video video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.party-video-1 { left: 20%; top: 25%; rotate: -8deg; }
+.party-video-2 { right: 20%; bottom: 22%; rotate: 7deg; }
+.finale-scene.activated .party-video { animation: partySpin 2.4s ease-in-out infinite alternate; }
+.finale-scene.party-paused .party-video { animation-play-state: paused !important; }
+@media (max-width: 760px) { .party-video { width: 112px; border-width: 3px; } .party-video-1 { left: 9%; top: 27%; } .party-video-2 { right: 9%; bottom: 26%; } }
 @media (prefers-reduced-motion: reduce) { .finale-scene.activated .party-gif, .finale-scene.activated .party-tile, .finale-scene.activated .final-cake, .finale-scene.activated h2, .finale-scene.activated .final-button { animation-duration: 8s; } }
