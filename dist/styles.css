@@ -443,5 +443,8 @@ body { color: var(--text-readable); }
 .party-video-2 { right: 20%; bottom: 22%; rotate: 7deg; }
 .finale-scene.activated .party-video { animation: partySpin 2.4s ease-in-out infinite alternate; }
 .finale-scene.party-paused .party-video { animation-play-state: paused !important; }
+.sneaky-character.visible { animation: sneakyDance 1.8s ease-in-out infinite alternate; }
+.finale-scene.party-paused ~ .sneaky-character { animation-play-state: paused !important; }
+@keyframes sneakyDance { from { translate: 0 3px; rotate: -5deg; } to { translate: 0 -7px; rotate: 5deg; } }
 @media (max-width: 760px) { .party-video { width: 112px; border-width: 3px; } .party-video-1 { left: 9%; top: 27%; } .party-video-2 { right: 9%; bottom: 26%; } }
 @media (prefers-reduced-motion: reduce) { .finale-scene.activated .party-gif, .finale-scene.activated .party-tile, .finale-scene.activated .final-cake, .finale-scene.activated h2, .finale-scene.activated .final-button { animation-duration: 8s; } }
