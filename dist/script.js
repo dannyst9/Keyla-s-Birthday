@@ -166,6 +166,7 @@ function showScene(index, { celebrate = false } = {}) {
   }
   if (currentScene === 2) startLoveCarousel(); else stopLoveCarousel();
   if (currentScene === 7) startMonitorScene(); else resetMonitorTimers();
+  setSneakyCharacter(currentScene);
 }
 
 // Escena del monitor: mensaje, intruso y papelera
@@ -275,16 +276,18 @@ activateFromMonitor.addEventListener("click", event => { celebrateSmall(event); 
 
 document.querySelectorAll(".js-next").forEach(button => {
   button.addEventListener("click", event => {
+    startCardMusic();
     celebrateSmall(event);
     showScene(currentScene + 1);
   });
 });
 
 backButton.addEventListener("click", () => showScene(currentScene - 1));
-forwardButton.addEventListener("click", event => { celebrateSmall(event); showScene(currentScene + 1); });
+forwardButton.addEventListener("click", event => { startCardMusic(); celebrateSmall(event); showScene(currentScene + 1); });
 
 soundToggle.addEventListener("click", () => {
   muted = !muted;
+  if (partySong) partySong.muted = muted;
   soundToggle.setAttribute("aria-pressed", String(muted));
   soundToggle.setAttribute("aria-label", muted ? "Activar sonidos" : "Silenciar sonidos");
   if (!muted) trumpet();
@@ -445,15 +448,116 @@ const partyMute = document.querySelector("#partyMute");
 const partyReplay = document.querySelector("#partyReplay");
 const songStatus = document.querySelector("#songStatus");
 let partyActive = false;
+const partyGifSources = [
+  "assets/party-cat-happy.gif",
+  "assets/party-cat-dance.gif",
+  "assets/party-cat-headshake.gif",
+  "assets/party-skeleton-run.gif",
+  "assets/party-cat-pink.gif",
+  "assets/party-cat-scuba.gif",
+];
+let sneakyCanvasFrame = 0;
+let partyCanvasFrame = 0;
+let partyCanvasRunning = false;
+let sneakyImage = null;
+let sneakyLastPaint = 0;
+
+function startCardMusic() {
+  if (!partySong || partySong.dataset.started === "true") return;
+  partySong.volume = 0.34;
+  partySong.muted = muted;
+  partySong.play().then(() => { partySong.dataset.started = "true"; }).catch(() => {
+    songStatus.textContent = "Pulsa Activar cumpleaños para iniciar la música.";
+  });
+}
+
+function keyedCanvas(canvas, image, maxSize = 220) {
+  if (!image?.complete || !image.naturalWidth) return;
+  const scale = Math.min(1, maxSize / Math.max(image.naturalWidth, image.naturalHeight));
+  const width = Math.max(1, Math.round(image.naturalWidth * scale));
+  const height = Math.max(1, Math.round(image.naturalHeight * scale));
+  if (canvas.width !== width || canvas.height !== height) { canvas.width = width; canvas.height = height; }
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  ctx.clearRect(0, 0, width, height);
+  ctx.drawImage(image, 0, 0, width, height);
+  const frame = ctx.getImageData(0, 0, width, height);
+  const pixels = frame.data;
+  for (let i = 0; i < pixels.length; i += 4) {
+    const red = pixels[i], green = pixels[i + 1], blue = pixels[i + 2];
+    const dominance = green - Math.max(red, blue);
+    if (green > 72 && dominance > 24) {
+      pixels[i + 3] = Math.round(pixels[i + 3] * Math.max(0, Math.min(1, 1 - (dominance - 24) / 115)));
+    }
+  }
+  ctx.putImageData(frame, 0, 0);
+}
+
+function setSneakyCharacter(sceneIndex) {
+  const host = document.querySelector("#sneakyCharacter");
+  if (!host || partyActive || sceneIndex === 8) { host?.classList.remove("visible"); return; }
+  const file = partyGifSources[(sceneIndex + 1) % partyGifSources.length];
+  if (host.dataset.src !== file) {
+    host.dataset.src = file;
+    sneakyImage = new Image();
+    sneakyImage.src = file;
+  }
+  host.classList.add("visible");
+}
+
+function paintSneaky(timestamp = 0) {
+  if (timestamp - sneakyLastPaint > 65) {
+    const canvas = document.querySelector("#sneakyCharacter canvas");
+    if (canvas && sneakyImage?.complete) keyedCanvas(canvas, sneakyImage, 180);
+    sneakyLastPaint = timestamp;
+  }
+  sneakyCanvasFrame = requestAnimationFrame(paintSneaky);
+}
+
+function startPartyGifs() {
+  if (partyCanvasRunning) return;
+  partyCanvasRunning = true;
+  document.querySelector("#sneakyCharacter")?.classList.remove("visible");
+  const stage = document.querySelector("#partyGifStage");
+  partyGifSources.forEach((src, index) => {
+    const item = document.createElement("div");
+    item.className = `party-gif party-gif-${index + 1}`;
+    const canvas = document.createElement("canvas");
+    const image = new Image();
+    image.src = src;
+    item.append(canvas);
+    stage.append(item);
+    item.dataset.index = String(index);
+    item._partyImage = image;
+    item._partyCanvas = canvas;
+  });
+  const paint = timestamp => {
+    if (timestamp - (stage._lastPaint || 0) > 70) {
+      stage.querySelectorAll(".party-gif").forEach(item => keyedCanvas(item._partyCanvas, item._partyImage, 230));
+      stage._lastPaint = timestamp;
+    }
+    if (partyCanvasRunning) partyCanvasFrame = requestAnimationFrame(paint);
+  };
+  partyCanvasFrame = requestAnimationFrame(paint);
+}
+
+function pausePartyGifs(paused) {
+  document.querySelector("#finaleTitle")?.closest(".finale-scene")?.classList.toggle("party-paused", paused);
+}
+
+if (!sneakyCanvasFrame) sneakyCanvasFrame = requestAnimationFrame(paintSneaky);
+setSneakyCharacter(0);
 
 document.querySelector("#activateBirthday").addEventListener("click", event => {
   event.currentTarget.disabled = true;
   event.currentTarget.textContent = "CUMPLEAÑOS ACTIVADO ✓";
   document.querySelector(".finale-scene").classList.add("activated");
   partyActive = true;
+  startPartyGifs();
   [partyPause, partyMute, partyReplay].forEach(button => { button.disabled = false; });
   if (partySong.src) {
-    partySong.play().then(() => { songStatus.textContent = "La fiesta está sonando."; }).catch(() => { songStatus.textContent = "Pulsa reproducir para iniciar la canción."; });
+    partySong.volume = .34;
+    partySong.muted = muted;
+    partySong.play().then(() => { partySong.dataset.started = "true"; songStatus.textContent = "La fiesta está sonando."; }).catch(() => { songStatus.textContent = "Pulsa reproducir para iniciar la canción."; });
   } else {
     songStatus.textContent = "Fiesta activada. Añade tu canción para completar la banda sonora.";
   }
@@ -465,8 +569,8 @@ document.querySelector("#activateBirthday").addEventListener("click", event => {
 
 partyPause.addEventListener("click", () => {
   if (!partyActive || !partySong.src) return;
-  if (partySong.paused) { partySong.play(); partyPause.textContent = "Pausar fiesta"; }
-  else { partySong.pause(); partyPause.textContent = "Reanudar fiesta"; }
+  if (partySong.paused) { partySong.play(); partyPause.textContent = "Pausar fiesta"; pausePartyGifs(false); }
+  else { partySong.pause(); partyPause.textContent = "Reanudar fiesta"; pausePartyGifs(true); }
 });
 partyMute.addEventListener("click", () => {
   if (!partyActive || !partySong.src) return;
@@ -477,6 +581,8 @@ partyReplay.addEventListener("click", () => {
   if (!partyActive) return;
   partySong.currentTime = 0;
   if (partySong.src) partySong.play();
+  pausePartyGifs(false);
+  partyPause.textContent = "Pausar fiesta";
   confettiBurst({ count: 180, x: .5, y: .25, spread: 1.5 });
 });
 

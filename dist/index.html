@@ -207,6 +207,7 @@
 
       <section class="scene finale-scene" data-scene="8" aria-labelledby="finaleTitle" hidden>
         <div class="party-lights" aria-hidden="true"></div>
+        <div id="partyGifStage" class="party-gif-stage" aria-hidden="true"></div>
         <div class="party-tile tile-one"><img src="assets/gato-fiesta.png" alt="Gato bailando de cumpleaños" /></div>
         <div class="party-tile tile-two"><img src="assets/perro-cumple.png" alt="Perro celebrando" /></div>
         <div class="party-tile tile-three"><img src="assets/gatos-cumple.png" alt="Gatos festejando" /></div>
@@ -217,7 +218,7 @@
         <p class="finale-subtitle">Te queremos incluso si no te bañas.</p>
         <button id="activateBirthday" class="final-button" type="button">ACTIVAR CUMPLEAÑOS</button>
         <img class="final-cake" src="assets/cake-keyla-21.png" alt="Pastel de cumpleaños de Keyla con 21 velas" />
-        <audio id="partySong" preload="none" loop></audio>
+        <audio id="partySong" src="assets/club-tropicana-instrumental.mp3" preload="auto" loop></audio>
         <p id="songStatus" class="song-status" aria-live="polite">La canción aparecerá aquí cuando la compartas.</p>
         <div class="party-controls" aria-label="Controles de celebración">
           <button id="partyPause" class="ghost-button" type="button" disabled>Pausar fiesta</button>
@@ -229,6 +230,8 @@
         </div>
       </section>
     </main>
+
+    <div id="sneakyCharacter" class="sneaky-character" aria-hidden="true"><canvas></canvas></div>
 
     <nav class="scene-nav" aria-label="Navegación entre secciones">
       <button id="backButton" type="button" aria-label="Volver a la sección anterior" disabled>←</button>
