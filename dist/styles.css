@@ -223,3 +223,33 @@ body::before { opacity: .12; background-image: radial-gradient(circle, #fff 1px,
 @keyframes bubbleRise { to { transform: translateY(-110vh) scale(1.7); opacity: 0; } } @keyframes cursorSweep { 0%{left:78%;top:80%} 50%{left:45%;top:43%} 100%{left:3%;top:72%} } @keyframes trashPop { 40%{transform:scale(1.2) rotate(-14deg)}100%{transform:scale(.7) rotate(22deg);opacity:.3} } @keyframes burstBubbles { 0%{transform:scale(.3);opacity:0}50%{transform:scale(1.4);opacity:1}100%{transform:translateY(-30px) scale(.8);opacity:0} } @keyframes spinLights { to { transform: rotate(360deg); } } @keyframes tileFloat { to { translate: 0 -12px; } } @keyframes cakeHover { to { transform: translateY(-8px) rotate(1deg); } }
 @media (max-width: 760px) { .monitor-stage { min-height: 315px; } .monitor-screen { width: min(292px, 75vw); top: 42%; } .monitor-window { inset: 3%; } .typed-message { padding: 9px; font-size: 10px; } .trash-can { width: 46px; height: 54px; } .party-tile { width: 92px; border-width: 4px; } .tile-one{left:2%;top:13%}.tile-two{right:2%;top:13%}.tile-three{left:3%;bottom:15%}.tile-four{right:3%;bottom:13%} .final-cake { width: min(330px, 77vw); } .party-controls { padding-bottom: 52px; } }
 @media (prefers-reduced-motion: reduce) { .monitor-illustration { transform: none !important; } .party-lights, .party-tile, .final-cake { animation: none !important; } .animated-cursor.moving { opacity: 1; } }
+
+/* Referencia gráfica: tipografía porosa, flores y textura de Fondo de Bikini */
+:root { --sponge-yellow: #fff34f; --sponge-shadow: #b4a821; --outline: #123c65; }
+body { font-family: "Outfit", sans-serif; background-color: #19b9be; background-image: linear-gradient(180deg,#1bc7c1bb,#0876a4dd), url("assets/underwater-texture.png"); background-size: cover, 680px auto; background-attachment: fixed; }
+.experience { position: relative; isolation: isolate; }
+.experience::before { content: ""; position: fixed; z-index: -1; inset: 0; opacity: .22; pointer-events: none; background: url("assets/underwater-flowers.png") center / cover no-repeat; mix-blend-mode: screen; }
+.scene { background-image: linear-gradient(145deg,#43d5c9e8,#168eafd9 54%,#123f78e8), url("assets/underwater-texture.png"); background-size: cover, 720px auto; background-blend-mode: normal, soft-light; }
+.scene::after { background: url("assets/underwater-flowers.png") center / cover no-repeat; opacity: .14; mix-blend-mode: screen; }
+h1, h2, .big-number, .brand, .final-button, .primary-button, .stamp, .card-number { font-family: "Bowlby One SC", "Outfit", sans-serif; letter-spacing: .015em; }
+h1, h2, .big-number { color: var(--sponge-yellow) !important; -webkit-text-stroke: 2px var(--outline); text-shadow: 4px 5px 0 var(--sponge-shadow), 0 8px 16px #073b6388; }
+.intro-copy h1 em { color: var(--sponge-yellow); -webkit-text-stroke: 2px var(--outline); }
+.section-heading h2, .note-wrap h2 { text-shadow: 3px 4px 0 var(--sponge-shadow), 0 7px 14px #073b6380; }
+.eyebrow { font-family: "DM Mono", monospace; letter-spacing: .16em; font-weight: 700; color: #eaffff; text-shadow: 2px 2px 0 #174b6a; }
+.lead, .announcement-line, .love-card p, .diagnosis-list, .personal-note, .monitor-status, .song-status { font-weight: 600; }
+.primary-button, .final-button { border: 3px solid var(--outline); border-radius: 14px 20px 12px 18px; box-shadow: 4px 5px 0 var(--outline), 0 16px 24px #073b6366; text-shadow: 1px 2px 0 #9a2f57; }
+.secondary-button, .text-button, .pause-button, .ghost-button { border: 3px solid var(--outline); border-radius: 13px 18px 11px 16px; box-shadow: 3px 4px 0 var(--outline); font-family: "Bowlby One SC", "Outfit", sans-serif; }
+.announcement-line, .love-card, .diagnosis-list, .personal-note { border: 3px solid var(--outline); border-radius: 16px 24px 18px 28px; }
+.announcement-line::before, .love-card::before { border-radius: 50%; }
+.stamp { border: 3px solid var(--outline); background: var(--sponge-yellow); color: var(--outline); box-shadow: 3px 4px 0 var(--outline); }
+.monitor-window, .monitor-alert, .trash-can { border-color: var(--outline); }
+.monitor-window { border-width: 3px; border-radius: 10px 16px 12px 8px; }
+.window-bar { font-family: "Bowlby One SC", "Outfit", sans-serif; letter-spacing: .02em; }
+.monitor-status { border: 3px solid var(--outline); box-shadow: 3px 4px 0 #06213f; }
+.party-tile { border-color: var(--sponge-yellow); box-shadow: 5px 6px 0 var(--outline), 0 18px 30px #041b4d66; }
+.finale-scene h2 { -webkit-text-stroke: 2px var(--outline); text-shadow: 5px 6px 0 var(--sponge-shadow), 0 12px 18px #061f4b99; }
+.final-cake { border: 4px solid var(--outline); }
+.scene-nav { border: 3px solid var(--outline); box-shadow: 4px 5px 0 var(--outline), 0 12px 24px #053d6070; }
+.scene-nav span { font-family: "Bowlby One SC", "Outfit", sans-serif; color: var(--outline); letter-spacing: .02em; }
+button:focus-visible { outline: 4px solid var(--sponge-yellow); outline-offset: 3px; }
+@media (max-width: 760px) { h1, h2, .big-number { -webkit-text-stroke-width: 1px; text-shadow: 3px 3px 0 var(--sponge-shadow), 0 6px 12px #073b6388; } .eyebrow { font-size: 11px; } .primary-button, .final-button, .secondary-button, .text-button, .pause-button, .ghost-button { min-height: 48px; } }
