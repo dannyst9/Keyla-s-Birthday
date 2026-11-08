@@ -211,13 +211,18 @@ function triggerIntruder() {
   intruderWindow.classList.add("visible");
   intruderWindow.setAttribute("aria-hidden", "false");
   monitorAlert.classList.add("visible");
-  monitorStatus.textContent = "Alerta: alguien está intentando colarse…";
-  const limit = prefersReducedMotion.matches ? intruderMessage.length : Math.floor(intruderMessage.length * .66);
-  typeText(intruderTyped, intruderMessage, { speed: 38, limit, done: () => {
-    monitorStatus.textContent = "Intruso detectado. Activando protocolo de limpieza.";
-    if (prefersReducedMotion.matches) finishIntruder();
-    else monitorTimers.push(window.setTimeout(runCursorSequence, 650));
-  }});
+  monitorStatus.textContent = "Mensaje entrante de CACACENO…";
+  intruderTyped.textContent = "";
+  const startTyping = () => {
+    const limit = prefersReducedMotion.matches ? intruderMessage.length : Math.floor(intruderMessage.length * .66);
+    typeText(intruderTyped, intruderMessage, { speed: 38, limit, done: () => {
+      monitorStatus.textContent = "Intruso detectado. Activando protocolo de limpieza.";
+      if (prefersReducedMotion.matches) finishIntruder();
+      else monitorTimers.push(window.setTimeout(runCursorSequence, 650));
+    }});
+  };
+  if (prefersReducedMotion.matches) startTyping();
+  else monitorTimers.push(window.setTimeout(startTyping, 1400));
 }
 
 function runCursorSequence() {
