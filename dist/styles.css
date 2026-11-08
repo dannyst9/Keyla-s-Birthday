@@ -164,6 +164,25 @@ h1,h2 { margin: 0; font-family: "Playfair Display",Georgia,serif; font-weight: 8
   .personal-note { padding: 34px 25px 58px; border-radius: 28px 52px 32px 48px; } .note-cat { width: 108px; right: -4px; bottom: -22px; }
   .final-shrek { width: 170px; opacity: .92; } .scene-nav { bottom: 9px; height: 48px; grid-template-columns: 48px 1fr 48px; }
 }
+
+/* Corrección de composición: monitor visible, pantalla enmarcada y papelera operable */
+.monitor-stage { width: 100vw; min-height: 66vh; height: min(690px, 66vh); }
+.monitor-illustration { position: relative; z-index: 2; width: min(1080px, 94vw); max-height: 66vh; opacity: 1; filter: drop-shadow(0 26px 32px #031b4e99); }
+.monitor-screen { z-index: 5; width: min(470px, 44vw); aspect-ratio: 1.52; top: 43%; }
+.monitor-window { inset: 7%; background: #eaffff; box-shadow: 0 12px 24px #031e43aa; }
+.typed-message { font-size: clamp(17px, 1.75vw, 22px); line-height: 1.42; }
+.trash-can { z-index: 22; right: 4%; bottom: 5%; width: 84px; height: 98px; font-size: 34px; border-width: 4px; box-shadow: 5px 6px 0 var(--outline), 0 16px 24px #031b4e88; }
+.trash-can::before { content: "PAPELERA"; position: absolute; top: -27px; left: 50%; transform: translateX(-50%); padding: 4px 8px; border-radius: 999px; background: var(--sponge-yellow); color: var(--outline); font: 800 10px "DM Mono", monospace; white-space: nowrap; }
+.trash-burst { right: 4%; bottom: 22%; font-size: 34px; }
+@keyframes cursorSweep { 0%{left:78%;top:78%} 45%{left:48%;top:43%} 100%{left:93%;top:83%} }
+@media (max-width: 760px) {
+  .monitor-stage { min-height: 57vh; height: 57vh; }
+  .monitor-illustration { width: 112vw; max-width: none; }
+  .monitor-screen { width: min(78vw, 390px); top: 43%; }
+  .typed-message { font-size: clamp(15px, 4vw, 18px); }
+  .trash-can { right: 2%; bottom: 2%; width: 62px; height: 74px; font-size: 26px; }
+  .trash-can::before { font-size: 8px; top: -22px; }
+}
 @media (max-height: 720px) and (min-width: 761px) { .scene { padding-top: 82px; padding-bottom: 74px; } .love-carousel { min-height: 270px; } .cake { transform: scale(.8); margin: -30px 0; } .personal-note { padding: 32px 48px; } }
 @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
 
