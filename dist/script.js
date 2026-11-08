@@ -457,10 +457,7 @@ const partyGifSources = [
   "assets/party-cat-scuba.gif",
 ];
 let sneakyCanvasFrame = 0;
-let partyCanvasFrame = 0;
 let partyCanvasRunning = false;
-let sneakyImage = null;
-let sneakyLastPaint = 0;
 
 function startCardMusic() {
   if (!partySong || partySong.dataset.started === "true") return;
@@ -498,19 +495,9 @@ function setSneakyCharacter(sceneIndex) {
   const file = partyGifSources[(sceneIndex + 1) % partyGifSources.length];
   if (host.dataset.src !== file) {
     host.dataset.src = file;
-    sneakyImage = new Image();
-    sneakyImage.src = file;
+    host.querySelector("img").src = file;
   }
   host.classList.add("visible");
-}
-
-function paintSneaky(timestamp = 0) {
-  if (timestamp - sneakyLastPaint > 65) {
-    const canvas = document.querySelector("#sneakyCharacter canvas");
-    if (canvas && sneakyImage?.complete) keyedCanvas(canvas, sneakyImage, 180);
-    sneakyLastPaint = timestamp;
-  }
-  sneakyCanvasFrame = requestAnimationFrame(paintSneaky);
 }
 
 function startPartyGifs() {
@@ -521,48 +508,34 @@ function startPartyGifs() {
   partyGifSources.forEach((src, index) => {
     const item = document.createElement("div");
     item.className = `party-gif party-gif-${index + 1}`;
-    const canvas = document.createElement("canvas");
     const image = new Image();
     image.src = src;
-    item.append(canvas);
+    image.alt = "";
+    image.draggable = false;
+    item.append(image);
     stage.append(item);
     item.dataset.index = String(index);
     item._partyImage = image;
-    item._partyCanvas = canvas;
   });
-  ["assets/party-clip-one.mp4", "assets/party-clip-two.mp4"].forEach((src, index) => {
-    const item = document.createElement("div");
-    item.className = `party-video party-video-${index + 1}`;
-    const video = document.createElement("video");
-    video.src = src;
-    video.autoplay = true;
-    video.loop = true;
-    video.muted = true;
-    video.playsInline = true;
-    video.preload = "auto";
-    item.append(video);
-    stage.append(item);
-    video.play().catch(() => {});
-  });
-  const paint = timestamp => {
-    if (timestamp - (stage._lastPaint || 0) > 70) {
-      stage.querySelectorAll(".party-gif").forEach(item => keyedCanvas(item._partyCanvas, item._partyImage, 230));
-      stage._lastPaint = timestamp;
-    }
-    if (partyCanvasRunning) partyCanvasFrame = requestAnimationFrame(paint);
-  };
-  partyCanvasFrame = requestAnimationFrame(paint);
 }
 
 function pausePartyGifs(paused) {
   document.querySelector("#finaleTitle")?.closest(".finale-scene")?.classList.toggle("party-paused", paused);
-  document.querySelectorAll(".party-video video").forEach(video => {
-    if (paused) video.pause();
-    else video.play().catch(() => {});
+  document.querySelectorAll(".party-gif img").forEach(image => {
+    const item = image.closest(".party-gif");
+    if (paused && !item.querySelector("canvas")) {
+      const frozen = document.createElement("canvas");
+      keyedCanvas(frozen, image, 230);
+      frozen.className = "paused-gif-frame";
+      image.hidden = true;
+      item.append(frozen);
+    } else if (!paused) {
+      item.querySelector("canvas.paused-gif-frame")?.remove();
+      image.hidden = false;
+    }
   });
 }
 
-if (!sneakyCanvasFrame) sneakyCanvasFrame = requestAnimationFrame(paintSneaky);
 setSneakyCharacter(0);
 
 document.querySelector("#activateBirthday").addEventListener("click", event => {
