@@ -218,7 +218,7 @@ function triggerIntruder() {
     typeText(intruderTyped, intruderMessage, { speed: 38, limit, done: () => {
       monitorStatus.textContent = "Intruso detectado. Activando protocolo de limpieza.";
       if (prefersReducedMotion.matches) finishIntruder();
-      else monitorTimers.push(window.setTimeout(runCursorSequence, 650));
+      else monitorTimers.push(window.setTimeout(runCursorSequence, 2200));
     }});
   };
   if (prefersReducedMotion.matches) startTyping();
@@ -230,16 +230,16 @@ function runCursorSequence() {
   monitorTimers.push(window.setTimeout(() => {
     intruderWindow.classList.add("closing");
     monitorStatus.textContent = "Cerrando mensaje sospechoso…";
-  }, 700));
+  }, 500));
   monitorTimers.push(window.setTimeout(() => {
     trashCan.classList.add("open");
     monitorStatus.textContent = "Enviando intruso a la papelera…";
-  }, 1400));
+  }, 900));
   monitorTimers.push(window.setTimeout(() => {
     trashCan.classList.add("exploded");
     trashBurst.classList.add("visible");
     finishIntruder();
-  }, prefersReducedMotion.matches ? 0 : 2100));
+  }, prefersReducedMotion.matches ? 0 : 1500));
 }
 
 function finishIntruder() {

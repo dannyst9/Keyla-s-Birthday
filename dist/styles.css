@@ -412,3 +412,7 @@ body { color: var(--text-readable); }
   .intruder-profile strong { font-size: 15px; }
   .intruder-profile span { font-size: 12px; }
 }
+
+/* Status text sits directly below and centered against the monitor message */
+.monitor-scene .monitor-status { position: absolute !important; z-index: 15 !important; left: 50% !important; right: auto !important; top: calc(48% + min(155px, 17vh)) !important; bottom: auto !important; transform: translateX(-50%) !important; width: min(420px, 34vw) !important; text-align: center !important; }
+@media (max-width: 760px) { .monitor-scene .monitor-status { left: 50% !important; right: auto !important; top: calc(47% + min(155px, 19vh)) !important; bottom: auto !important; transform: translateX(-50%) !important; width: min(78vw, 390px) !important; } }
