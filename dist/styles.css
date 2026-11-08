@@ -389,3 +389,11 @@ body { color: var(--text-readable); }
   .eyebrow { font-size: 12px !important; letter-spacing: .1em !important; }
   .scene-nav span { font-size: 10px !important; }
 }
+
+/* Solo reposicionar la ventana de mensaje y su aviso azul */
+.monitor-scene .monitor-screen { left: 18% !important; right: auto !important; top: 47% !important; }
+.monitor-scene .monitor-status { left: 18% !important; right: auto !important; top: 40% !important; bottom: auto !important; transform: none !important; }
+@media (max-width: 760px) {
+  .monitor-scene .monitor-screen { left: 9% !important; right: auto !important; top: 44% !important; }
+  .monitor-scene .monitor-status { left: 9% !important; right: auto !important; top: 38% !important; bottom: auto !important; transform: none !important; }
+}
