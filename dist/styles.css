@@ -361,3 +361,31 @@ button:focus-visible { outline: 4px solid var(--sponge-yellow); outline-offset: 
   .monitor-scene .monitor-screen { right: 17% !important; top: 44% !important; width: 58vw !important; height: 29vh !important; }
   .monitor-scene .monitor-status { bottom: 10% !important; }
 }
+
+/* Contraste tipográfico consistente en las nueve escenas */
+:root { --text-readable: #123553; --text-muted-readable: #31516b; }
+body { color: var(--text-readable); }
+.announcement-scene { color: var(--text-readable) !important; }
+.announcement-line { color: var(--text-readable) !important; background: #f5fffb !important; text-shadow: none !important; }
+.announcement-line strong { color: #bd3d35 !important; }
+.eyebrow { color: #103e5d !important; text-shadow: 0 1px 0 #ffffffd9 !important; }
+.eyebrow.light { color: #f3fffc !important; text-shadow: 0 2px 3px #073353 !important; }
+.lead, .section-heading > p:not(.eyebrow), .announcement-stack > p:not(.eyebrow):not(.stamp), .love-card p,
+.diagnosis-list, .fine-print, .personal-note p, .note-wrap p, .monitor-status, .song-status { color: var(--text-readable); }
+.primary-button, .final-button { color: #123553 !important; text-shadow: none !important; -webkit-text-stroke: 0 !important; background: #ffe85b !important; }
+.primary-button:hover, .final-button:hover { color: #082f4c !important; }
+.secondary-button, .text-button, .pause-button { color: #123553 !important; text-shadow: none !important; background: #effffc !important; }
+.ghost-button { color: #ffffff !important; text-shadow: 0 1px 2px #082d48 !important; background: #145477 !important; }
+.stamp { color: #123553 !important; text-shadow: none !important; }
+.scene-nav span { color: #123553 !important; text-shadow: none !important; font-size: 11px !important; }
+.progress, .progress span { color: #123553 !important; }
+.window-bar { color: #173b5d !important; text-shadow: none !important; }
+.monitor-window .typed-message { color: #173b5d !important; }
+.monitor-alert { color: #ffffff !important; text-shadow: 0 1px 2px #742235 !important; }
+.card-number { color: #174d70 !important; -webkit-text-stroke: 0 !important; text-shadow: none !important; }
+.finale-scene h2 { color: #fff34f !important; }
+@media (max-width: 760px) {
+  body, .announcement-line, .lead, .love-card p, .personal-note p { font-size: max(16px, 1em); }
+  .eyebrow { font-size: 12px !important; letter-spacing: .1em !important; }
+  .scene-nav span { font-size: 10px !important; }
+}
