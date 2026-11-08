@@ -5,8 +5,9 @@ const sceneNames = [
   "El efecto Keyla",
   "Diagnóstico oficial",
   "Las 21 velas",
-  "El mensaje verdadero",
-  "Final explosivo",
+  "Feliz vuelta al sol",
+  "Intruso en el monitor",
+  "Activar cumpleaños",
 ];
 
 const scenes = [...document.querySelectorAll(".scene")];
@@ -164,7 +165,108 @@ function showScene(index, { celebrate = false } = {}) {
     trumpet();
   }
   if (currentScene === 2) startLoveCarousel(); else stopLoveCarousel();
+  if (currentScene === 7) startMonitorScene(); else resetMonitorTimers();
 }
+
+// Escena del monitor: mensaje, intruso y papelera
+const monitorStage = document.querySelector("#monitorStage");
+const monitorMessage = document.querySelector("#monitorMessage");
+const monitorNext = document.querySelector("#monitorNext");
+const monitorStatus = document.querySelector("#monitorStatus");
+const intruderWindow = document.querySelector("#intruderWindow");
+const intruderTyped = document.querySelector("#intruderTyped");
+const monitorAlert = document.querySelector("#monitorAlert");
+const animatedCursor = document.querySelector("#animatedCursor");
+const trashCan = document.querySelector("#trashCan");
+const trashBurst = document.querySelector("#trashBurst");
+const activateFromMonitor = document.querySelector("#activateFromMonitor");
+const sincereMessage = "Keyla, gracias por hacer que hasta los días normales tengan algo especial. Que tus 21 estén llenos de personas que te hagan sentir en casa, aventuras inolvidables y muchas historias cuestionables. Te quiero muchísimo.";
+const intruderMessage = "uhm, escuche que eda tu cumpleañozz y te queria saludad...";
+let monitorTimers = [];
+let monitorStarted = false;
+let intruderTriggered = false;
+
+function resetMonitorTimers() {
+  monitorTimers.forEach(window.clearTimeout);
+  monitorTimers = [];
+}
+
+function typeText(target, text, { speed = 28, limit = text.length, done } = {}) {
+  target.textContent = "";
+  let index = 0;
+  const tick = () => {
+    target.textContent = text.slice(0, index);
+    index += 1;
+    if (index <= limit) monitorTimers.push(window.setTimeout(tick, speed));
+    else done?.();
+  };
+  tick();
+}
+
+function triggerIntruder() {
+  if (intruderTriggered) return;
+  intruderTriggered = true;
+  resetMonitorTimers();
+  monitorNext.hidden = true;
+  intruderWindow.classList.add("visible");
+  intruderWindow.setAttribute("aria-hidden", "false");
+  monitorAlert.classList.add("visible");
+  monitorStatus.textContent = "Alerta: alguien está intentando colarse…";
+  const limit = prefersReducedMotion.matches ? intruderMessage.length : Math.floor(intruderMessage.length * .66);
+  typeText(intruderTyped, intruderMessage, { speed: 38, limit, done: () => {
+    monitorStatus.textContent = "Intruso detectado. Activando protocolo de limpieza.";
+    if (prefersReducedMotion.matches) finishIntruder();
+    else monitorTimers.push(window.setTimeout(runCursorSequence, 650));
+  }});
+}
+
+function runCursorSequence() {
+  animatedCursor.classList.add("moving");
+  monitorTimers.push(window.setTimeout(() => {
+    intruderWindow.classList.add("closing");
+    monitorStatus.textContent = "Cerrando mensaje sospechoso…";
+  }, 700));
+  monitorTimers.push(window.setTimeout(() => {
+    trashCan.classList.add("open");
+    monitorStatus.textContent = "Enviando intruso a la papelera…";
+  }, 1400));
+  monitorTimers.push(window.setTimeout(() => {
+    trashCan.classList.add("exploded");
+    trashBurst.classList.add("visible");
+    finishIntruder();
+  }, prefersReducedMotion.matches ? 0 : 2100));
+}
+
+function finishIntruder() {
+  animatedCursor.classList.remove("moving");
+  monitorStatus.innerHTML = "<strong>Intruso bloqueado.</strong><br />La fiesta puede continuar.";
+  monitorStage.classList.add("clear");
+  activateFromMonitor.hidden = false;
+  confettiBurst({ count: 120, x: .5, y: .4, spread: 1.2 });
+  trumpet();
+}
+
+function startMonitorScene() {
+  if (monitorStarted) return;
+  monitorStarted = true;
+  intruderTriggered = false;
+  monitorStage.classList.remove("clear");
+  intruderWindow.classList.remove("visible", "closing");
+  monitorAlert.classList.remove("visible");
+  trashCan.classList.remove("open", "exploded");
+  trashBurst.classList.remove("visible");
+  activateFromMonitor.hidden = true;
+  monitorNext.hidden = true;
+  monitorStatus.textContent = "El mensaje está llegando…";
+  typeText(monitorMessage, sincereMessage, { speed: prefersReducedMotion.matches ? 0 : 24, done: () => {
+    monitorStatus.textContent = "Mensaje recibido. Puedes leerlo un momento.";
+    monitorNext.hidden = false;
+  }});
+  if (!prefersReducedMotion.matches) monitorTimers.push(window.setTimeout(triggerIntruder, 5000));
+}
+
+monitorNext.addEventListener("click", triggerIntruder);
+activateFromMonitor.addEventListener("click", event => { celebrateSmall(event); showScene(8); });
 
 document.querySelectorAll(".js-next").forEach(button => {
   button.addEventListener("click", event => {
@@ -332,14 +434,45 @@ blowButton.addEventListener("keydown", event => { if ((event.key === " " || even
 blowButton.addEventListener("keyup", event => { if (event.key === " " || event.key === "Enter") stopHold(); });
 
 // Final
+const partySong = document.querySelector("#partySong");
+const partyPause = document.querySelector("#partyPause");
+const partyMute = document.querySelector("#partyMute");
+const partyReplay = document.querySelector("#partyReplay");
+const songStatus = document.querySelector("#songStatus");
+let partyActive = false;
+
 document.querySelector("#activateBirthday").addEventListener("click", event => {
   event.currentTarget.disabled = true;
   event.currentTarget.textContent = "CUMPLEAÑOS ACTIVADO ✓";
   document.querySelector(".finale-scene").classList.add("activated");
+  partyActive = true;
+  [partyPause, partyMute, partyReplay].forEach(button => { button.disabled = false; });
+  if (partySong.src) {
+    partySong.play().then(() => { songStatus.textContent = "La fiesta está sonando."; }).catch(() => { songStatus.textContent = "Pulsa reproducir para iniciar la canción."; });
+  } else {
+    songStatus.textContent = "Fiesta activada. Añade tu canción para completar la banda sonora.";
+  }
   trumpet({ finale: true });
   confettiBurst({ count: 320, x: .5, y: .15, spread: 1.8 });
   window.setTimeout(() => confettiBurst({ count: 220, x: .2, y: .25, spread: 1.4 }), 450);
   window.setTimeout(() => confettiBurst({ count: 220, x: .8, y: .25, spread: 1.4 }), 800);
+});
+
+partyPause.addEventListener("click", () => {
+  if (!partyActive || !partySong.src) return;
+  if (partySong.paused) { partySong.play(); partyPause.textContent = "Pausar fiesta"; }
+  else { partySong.pause(); partyPause.textContent = "Reanudar fiesta"; }
+});
+partyMute.addEventListener("click", () => {
+  if (!partyActive || !partySong.src) return;
+  partySong.muted = !partySong.muted;
+  partyMute.textContent = partySong.muted ? "Activar sonido" : "Silenciar";
+});
+partyReplay.addEventListener("click", () => {
+  if (!partyActive) return;
+  partySong.currentTime = 0;
+  if (partySong.src) partySong.play();
+  confettiBurst({ count: 180, x: .5, y: .25, spread: 1.5 });
 });
 
 document.querySelector("#replayButton").addEventListener("click", () => window.location.reload());

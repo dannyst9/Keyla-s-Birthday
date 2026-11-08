@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f7efe2" />
+    <meta name="theme-color" content="#0b7f93" />
     <meta name="description" content="Una e-card interactiva para celebrar los 21 de Keyla." />
     <title>Keyla cumple 21</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -26,7 +26,7 @@
     <header class="topbar" aria-label="Controles de la tarjeta">
       <div class="brand">KEYLA <span>21</span></div>
       <div class="progress" aria-label="Progreso">
-        <span id="progressLabel">01 / 08</span>
+        <span id="progressLabel">01 / 09</span>
         <div class="progress-track" aria-hidden="true"><i id="progressFill"></i></div>
       </div>
       <button id="soundToggle" class="icon-button" type="button" aria-label="Silenciar sonidos" aria-pressed="false">
@@ -149,11 +149,10 @@
           <p>No lo digas en voz alta porque después no se cumple.</p>
         </div>
 
-        <div class="cake" aria-label="Pastel con 21 velas">
+        <div class="cake" aria-label="Pastel submarino de cumpleaños con 21 velas">
+          <img class="cake-illustration" src="assets/cake-keyla-21.png" alt="Pastel submarino con 21 velas y el nombre Keyla" />
           <div id="candles" class="candles" aria-hidden="true"></div>
-          <div class="cake-top"></div>
-          <div class="cake-body"><span>KEYLA</span><strong>21</strong></div>
-          <div class="cake-plate"></div>
+          <div class="cake-glow" aria-hidden="true"></div>
         </div>
         <button id="blowButton" class="hold-button" type="button">
           <span class="hold-fill" aria-hidden="true"></span>
@@ -169,21 +168,62 @@
           <article class="personal-note">
             <p class="eyebrow">AHORA SÍ, FUERA DE BROMAS…</p>
             <h2 id="noteTitle">Feliz vuelta al sol, Keyla.</h2>
-            <p>Espero que tus 21 estén llenos de momentos que quieras recordar, personas que te hagan sentir en casa y aventuras que terminen en historias —cuestionables, obviamente—.</p>
-            <p>Gracias por hacer que hasta los días normales tengan algo especial. No cambies esa forma tan tuya de llenar todo de caos, risa y vida.</p>
-            <p class="signature">Con mucho cariño,<br /><strong>alguien que te quiere incluso en temporada sin baño.</strong></p>
+            <p>Una vuelta más al sol, más historias y más razones para reírnos de todo.</p>
+            <p class="signature">Hay un mensaje completo esperándote en la computadora.</p>
           </article>
           <img class="note-cat" src="assets/gatos-cumple.png" alt="Gatos celebrando junto a un pastel" />
         </div>
-        <button class="primary-button js-next" type="button">Una última cosa… <span>→</span></button>
+        <button class="primary-button js-next" type="button">Abrir mensaje en la computadora <span>→</span></button>
       </section>
 
-      <section class="scene finale-scene" data-scene="7" aria-labelledby="finaleTitle" hidden>
+      <section class="scene monitor-scene" data-scene="7" aria-labelledby="monitorTitle" hidden>
+        <div class="bubble-field" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="section-heading compact monitor-heading">
+          <p class="eyebrow light">MENSAJE SEGURO · CONEXIÓN SUBMARINA</p>
+          <h2 id="monitorTitle">Un mensaje para Keyla</h2>
+        </div>
+        <div class="monitor-stage" id="monitorStage">
+          <img class="monitor-illustration" src="assets/monitor-underwater.webp" alt="Monitor submarino con accesos a distintos lugares" />
+          <div class="monitor-screen" aria-live="polite">
+            <div class="monitor-window sincere-window">
+              <div class="window-bar"><span>mensaje_para_keyla.txt</span><button type="button" tabindex="-1" aria-hidden="true">×</button></div>
+              <p id="monitorMessage" class="typed-message"></p>
+            </div>
+            <div class="monitor-window intruder-window" id="intruderWindow" aria-hidden="true">
+              <div class="window-bar danger"><span>mensaje_desconocido.exe</span><button type="button" id="intruderClose" aria-label="Cerrar mensaje del intruso">×</button></div>
+              <img src="assets/intruder-underwater.webp" alt="Intruso submarino absurdo" />
+              <p id="intruderTyped" class="typed-message"></p>
+            </div>
+            <div class="monitor-alert" id="monitorAlert" role="status" aria-live="assertive">Intruso detectado</div>
+            <div class="animated-cursor" id="animatedCursor" aria-hidden="true">➤</div>
+            <div class="trash-can" id="trashCan" aria-label="Papelera de reciclaje"><span>♻</span></div>
+            <div class="trash-burst" id="trashBurst" aria-hidden="true">✦ · 🫧 · ✦</div>
+          </div>
+        </div>
+        <p id="monitorStatus" class="monitor-status" aria-live="polite">El mensaje está llegando…</p>
+        <button id="monitorNext" class="primary-button" type="button" hidden>Siguiente <span>→</span></button>
+        <button id="activateFromMonitor" class="primary-button" type="button" hidden>Activar cumpleaños <span>→</span></button>
+      </section>
+
+      <section class="scene finale-scene" data-scene="8" aria-labelledby="finaleTitle" hidden>
+        <div class="party-lights" aria-hidden="true"></div>
+        <div class="party-tile tile-one"><img src="assets/gato-fiesta.png" alt="Gato bailando de cumpleaños" /></div>
+        <div class="party-tile tile-two"><img src="assets/perro-cumple.png" alt="Perro celebrando" /></div>
+        <div class="party-tile tile-three"><img src="assets/gatos-cumple.png" alt="Gatos festejando" /></div>
+        <div class="party-tile tile-four"><img src="assets/shrek-cumple.png" alt="Amigo verde celebrando" /></div>
+        <div class="party-bubbles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
         <p class="eyebrow light">NIVEL DESBLOQUEADO</p>
         <h2 id="finaleTitle">Feliz <span>21</span>,<br />Keyla</h2>
         <p class="finale-subtitle">Te queremos incluso si no te bañas.</p>
         <button id="activateBirthday" class="final-button" type="button">ACTIVAR CUMPLEAÑOS</button>
-        <img class="final-shrek" src="assets/shrek-cumple.png" alt="Shrek celebrando un cumpleaños" />
+        <img class="final-cake" src="assets/cake-keyla-21.png" alt="Pastel de cumpleaños de Keyla con 21 velas" />
+        <audio id="partySong" preload="none" loop></audio>
+        <p id="songStatus" class="song-status" aria-live="polite">La canción aparecerá aquí cuando la compartas.</p>
+        <div class="party-controls" aria-label="Controles de celebración">
+          <button id="partyPause" class="ghost-button" type="button" disabled>Pausar fiesta</button>
+          <button id="partyMute" class="ghost-button" type="button" disabled>Silenciar</button>
+          <button id="partyReplay" class="ghost-button" type="button" disabled>Reproducir otra vez</button>
+        </div>
         <div class="final-actions">
           <button id="replayButton" class="ghost-button" type="button">↻ Volver a verlo</button>
         </div>
