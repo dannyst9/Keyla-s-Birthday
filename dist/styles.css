@@ -253,3 +253,23 @@ h1, h2, .big-number { color: var(--sponge-yellow) !important; -webkit-text-strok
 .scene-nav span { font-family: "Bowlby One SC", "Outfit", sans-serif; color: var(--outline); letter-spacing: .02em; }
 button:focus-visible { outline: 4px solid var(--sponge-yellow); outline-offset: 3px; }
 @media (max-width: 760px) { h1, h2, .big-number { -webkit-text-stroke-width: 1px; text-shadow: 3px 3px 0 var(--sponge-shadow), 0 6px 12px #073b6388; } .eyebrow { font-size: 11px; } .primary-button, .final-button, .secondary-button, .text-button, .pause-button, .ghost-button { min-height: 48px; } }
+
+/* El monitor es ahora el escenario completo y el mensaje tiene prioridad visual */
+.monitor-scene { padding-left: 0; padding-right: 0; }
+.monitor-heading { width: min(1180px, 94vw); }
+.monitor-stage { width: 100vw; min-height: 63vh; height: min(650px, 63vh); }
+.monitor-illustration { width: min(1120px, 96vw); max-height: 63vh; object-fit: contain; }
+.monitor-screen { width: min(590px, 55vw); aspect-ratio: 1.62; top: 43%; }
+.monitor-window { inset: 3%; border-width: 4px; border-radius: 14px 20px 14px 10px; }
+.window-bar { padding: 8px 12px; font-size: clamp(12px, 1.2vw, 16px); }
+.typed-message { padding: clamp(18px, 2.2vw, 28px); font-size: clamp(16px, 2vw, 24px); line-height: 1.42; }
+.intruder-window img { width: 105px; height: 82px; margin: 14px; }
+.monitor-status { font-size: clamp(15px, 1.7vw, 20px); }
+@media (max-width: 760px) {
+  .monitor-stage { min-height: 55vh; height: 55vh; }
+  .monitor-illustration { width: 112vw; max-width: none; }
+  .monitor-screen { width: min(86vw, 470px); top: 43%; }
+  .window-bar { font-size: 11px; padding: 6px 9px; }
+  .typed-message { padding: 14px; font-size: clamp(14px, 4vw, 18px); line-height: 1.35; }
+  .intruder-window img { width: 72px; height: 58px; margin: 8px; }
+}
